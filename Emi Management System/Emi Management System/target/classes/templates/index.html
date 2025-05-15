@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EMI Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px #ccc;
+    }
+    h2 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 20px;
+      background: #e9ecef;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .result p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>EMI Calculator</h2>
+    <label for="principal">Principal Amount (₹):</label>
+    <input type="number" id="principal" placeholder="Enter loan amount" />
+
+    <label for="rate">Annual Interest Rate (%):</label>
+    <input type="number" id="rate" step="0.01" placeholder="Enter interest rate" />
+
+    <label for="tenure">Tenure (in months):</label>
+    <input type="number" id="tenure" placeholder="Enter tenure in months" />
+
+    <button onclick="calculateEMI()">Calculate EMI</button>
+
+    <div class="result" id="result" style="display:none;">
+      <h3>Result</h3>
+      <p id="emi"></p>
+      <p id="totalInterest"></p>
+      <p id="totalPayment"></p>
+    </div>
+  </div>
+
+  <script>
+    function calculateEMI() {
+      const principal = parseFloat(document.getElementById("principal").value);
+      const rate = parseFloat(document.getElementById("rate").value) / 12 / 100;
+      const tenure = parseInt(document.getElementById("tenure").value);
+
+      if (isNaN(principal) || isNaN(rate) || isNaN(tenure)) {
+        alert("Please enter valid inputs");
+        return;
+      }
+
+      const emi = (principal * rate * Math.pow(1 + rate, tenure)) / 
+                  (Math.pow(1 + rate, tenure) - 1);
+
+      const totalPayment = emi * tenure;
+      const totalInterest = totalPayment - principal;
+
+      document.getElementById("emi").innerText = "Monthly EMI: ₹" + emi.toFixed(2);
+      document.getElementById("totalInterest").innerText = "Total Interest: ₹" + totalInterest.toFixed(2);
+      document.getElementById("totalPayment").innerText = "Total Payment: ₹" + totalPayment.toFixed(2);
+      document.getElementById("result").style.display = "block";
+    }
+  </script>
+</body>
+</html>
